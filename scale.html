@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+    .btn {
+      border: none;
+      outline: none;
+      width: 120px;
+      height: 60px;
+      background-color: skyblue;
+      color: #fff;
+    }
+    .box {
+      position: fixed;
+      top: 60px;
+      left: 120px;
+      height: 200px;
+      width: 200px;
+      border-radius: 10px;
+      background-color: #fff;
+      text-align: center;
+      box-shadow: 0 0 10px 0 rgba(0, 0, 0, .5);
+      transform: scale(0);
+      transform-origin: left top;
+      transition: all ease 1s;
+    }
+    .container {
+      position: fixed;
+      top: 0;
+      left: 120px;
+      right: 0;
+      bottom: 0;
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <button class="btn" @click="changeBox">点我啊</button>
+    <div class="container">
+      <p v-for="(item, index) in 20" :key="index">我是内容我是内容我是内容我是内容我是内容我是内容我是内容我是内容</p>
+    </div>
+    <div class="box" ref="box">
+      <p>我是内容</p>
+      <p>我是内容</p>
+      <p>我是内容</p>
+    </div>
+  </div>
+</body>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    isShowBox: false,
+  },
+  methods: {
+    changeBox () {
+      const value = this.$refs.box.style['transform'];
+      if (value === 'scale(1)') {
+        this.$refs.box.style['transform'] = 'scale(0)';
+      } else {
+        this.$refs.box.style['transform'] = 'scale(1)';
+      }
+    }
+  }
+})
+</script>
+</html>
