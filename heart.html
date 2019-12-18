@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>heart</title>
+</head>
+<style>
+body {
+  user-select: none;
+}
+</style>
+<body>
+</body>
+<script>
+(function () {
+  var index = 0;
+  document.onclick = function (event) {
+    index++;
+    var x = event.clientX;
+    var y = event.clientY;
+    var keyframes = '@keyframes move' + index + '{from {display: block;} to {display: none; top:' + (y - 100 ) + 'px; opacity: 0;}}';
+    var head = document.getElementsByTagName('head')[0];
+    var style = document.createElement('style');
+    style.type = 'text/css';
+    style.innerHTML = keyframes;
+    head.appendChild(style);
+    var color = '#' + ((Math.random() * 0xffffff + 1) | 0).toString(16).padStart(6, '0'); // 需要补齐六位
+    var div = document.createElement('div');
+    div.innerHTML = '❤';
+    div.style = 'font-size:24px;color:' + color + ';' + 'position:fixed;animation: move' + index + ' 2s ease;' + 'left:' + x + 'px;top:' + y + 'px;';
+    document.body.appendChild(div);
+    setTimeout(function () {
+      document.getElementsByTagName('head')[0].removeChild(style);
+      document.body.removeChild(div);
+    }, 2000);
+  }
+})()
+</script>
+</html>
