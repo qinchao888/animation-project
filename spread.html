@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>spread</title>
+</head>
+<body>
+</body>
+<script>
+(function () {
+  var index = 0;
+  document.onclick = function (event) {
+    var x = event.clientX;
+    var y = event.clientY;
+    for (var i = 0; i < 16; i++) {
+      (function () {
+        index++
+        var color = '#' + ((Math.random() * 0xffffff + 1) | 0).toString(16).padStart(6, '0'); // 需要补齐六位
+        var parent = document.createElement('div');
+        var commonStyle = 'position:fixed;width:20px;height:20px;border-radius:50%;';
+        var parentCubic = '(' + getRandomPos().join(',') + ')'
+        parent.style = commonStyle + 'top:' + y + 'px;left:' + x + 'px;' + 'background:transparent;animation:parent' + index + ' 2s cubic-bezier' + parentCubic;
+        var child = document.createElement('div');
+        var childCubic = '(' + getRandomPos().join(',') + ')'
+        child.style = commonStyle + 'background:' + color + ';animation:child'+ index + ' 2s cubic-bezier' + childCubic;
+        var randomX = (50 + Math.random() * 500) * (Math.random() > 0.5 ? -1 : 1);
+        var randomY = (50 + Math.random() * 500) * (Math.random() > 0.5 ? -1 : 1);
+        var parentKeyframes = '@keyframes parent' + index + '{to {transform: translateX(' + randomX + 'px);display:none;opacity:0;}}';
+        var childKeyframes = '@keyframes child' + index + '{to {transform: translateY(' + randomY + 'px);display:none;opacity:0;}}';
+        var parentStyle = document.createElement('style');
+        parentStyle.type = 'text/css';
+        parentStyle.innerHTML = parentKeyframes;
+        var childStyle = document.createElement('style');
+        childStyle.type = 'text/css';
+        childStyle.innerHTML = childKeyframes;
+        parent.appendChild(child);
+        document.getElementsByTagName('head')[0].appendChild(parentStyle);
+        document.getElementsByTagName('head')[0].appendChild(childStyle);
+        document.body.appendChild(parent);
+        setTimeout(function () {
+          parent.removeChild(child);
+          document.body.removeChild(parent);
+          document.getElementsByTagName('head')[0].removeChild(parentStyle);
+          document.getElementsByTagName('head')[0].removeChild(childStyle);
+        }, 2000)
+      })();
+    }
+  }
+  function getRandomPos() {
+    return Array.from({length: 4}, function(item){
+      return Math.random();
+    })
+  }
+})();
+</script>
+</html>
